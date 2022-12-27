@@ -7,10 +7,7 @@ import com.mongo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CategoryService {
@@ -74,4 +71,40 @@ public class CategoryService {
         return categoryRepo.save(category);
     }
 
+    public List<CategoryResponse> getAllBySelectedId() {
+
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+//        List<Category> byIdIn = categoryRepo.findByIdIn(ids);
+        List<CategoryResponse> categoryResponseList = new ArrayList<>();
+//        for (Category category:byIdIn){
+//            CategoryResponse categoryResponse = new CategoryResponse();
+//            categoryResponse.setId(category.getId());
+//            categoryResponse.setModel(category.getModel());
+//            categoryResponseList.add(categoryResponse);
+//        }
+
+        return  categoryResponseList;
+    }
+
+    public List<CategoryResponse> getOnlyNameByMultipleId() {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        List<CategoryResponse> categoryResponseList = new ArrayList<>();
+       List<Category> names= categoryRepo.findModelByIdIn(ids);
+
+
+        String s = "";
+       for (Category name:names){
+           CategoryResponse categoryResponse = new CategoryResponse();
+           categoryResponse.setModel(name.getModel());
+           s=s+categoryResponse.getModel().toString();
+       
+           categoryResponseList.add(categoryResponse);
+       }
+        System.out.println(s);
+       return categoryResponseList;
+    }
 }
